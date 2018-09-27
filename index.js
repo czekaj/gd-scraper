@@ -19,39 +19,36 @@ driver.get(url).then(async () => {
   var reviewEls = await driver.findElements({
     className: 'empReview'
   })
-  var iterateOverReviews = async () => {
-    await Promise.all(reviewEls.map(async (reviewEl) => {
-      var getFieldByClass = async (classNameValue) => {
-        try {
-          var field = await reviewEl.findElement({
-            className: classNameValue
-          })
-        } catch (e) {
-          return ''
-        }
-        return field.getText()
+  for (var i = 0; i < reviewEls.length; i++) {
+    var getFieldByClass = async (classNameValue) => {
+      try {
+        var field = await reviewEls[i].findElement({
+          className: classNameValue
+        })
+      } catch (e) {
+        return ''
       }
-      var date = await reviewEl.findElement({
-        tagName: 'time'
-      })
-      date = await date.getText()
-      var stars = await reviewEl.findElement({
-        className: 'value-title'
-      })
-      stars = await stars.getAttribute('title')
-      stars = '*'.repeat(stars)
-      var review = {
-        date,
-        summary: await getFieldByClass('summary'),
-        stars,
-        author: await getFieldByClass('authorInfo'),
-        pros: await getFieldByClass('pros'),
-        cons: await getFieldByClass('cons'),
-        advice: await getFieldByClass('adviceMgmt')
-      }
-      reviews.push({ review })
-    }))
-    console.log(JSON.stringify(reviews, null, 2))
+      return field.getText()
+    }
+    var date = await reviewEls[i].findElement({
+      tagName: 'time'
+    })
+    date = await date.getText()
+    var stars = await reviewEls[i].findElement({
+      className: 'value-title'
+    })
+    stars = await stars.getAttribute('title')
+    stars = '*'.repeat(stars)
+    var review = {
+      date,
+      summary: await getFieldByClass('summary'),
+      stars,
+      author: await getFieldByClass('authorInfo'),
+      pros: await getFieldByClass('pros'),
+      cons: await getFieldByClass('cons'),
+      advice: await getFieldByClass('adviceMgmt')
+    }
+    reviews.push({ review })
   }
-  iterateOverReviews()
+  console.log(JSON.stringify(reviews, null, 2))
 })
