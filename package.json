@@ -1,0 +1,19 @@
+{
+  "name": "gd-scraper",
+  "version": "1.0.0",
+  "description": "Scrape company reviews on Glassdoor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "chromedriver": "^2.42.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "standard": "^12.0.1"
+  }
+}
