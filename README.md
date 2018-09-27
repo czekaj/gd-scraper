@@ -2,14 +2,14 @@
 
 Run
 
-```
+```bash
 npm i
-node index.js https://www.glassdoor.com/Reviews/XXXXX-Reviews-YYYYYYY.htm?sort.sortType=RD&sort.ascending=false&filter.employmentStatus=REGULAR&filter.employmentStatus=PART_TIME&filter.employmentStatus=UNKNOWN
+node index.js https://www.glassdoor.com/Reviews/XXXXXXXX-Reviews-YYYYYYYY.htm\?sort.sortType\=RD\&sort.ascending\=false\&filter.employmentStatus\=REGULAR\&filter.employmentStatus\=PART_TIME\&filter.employmentStatus\=UNKNOWN
 ```
 
 Output
 
-```
+```json
 [
   {
     "review": {
