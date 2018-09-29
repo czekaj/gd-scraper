@@ -13,7 +13,9 @@ var $browser = new webdriver.Builder()
   .setChromeOptions(options)
   .build()
 
-var reviews = []
+var output = {
+  reviews: []
+}
 
 $browser.get(url).then(async () => {
   var reviewEls = await $browser.findElements({
@@ -55,7 +57,7 @@ $browser.get(url).then(async () => {
       cons: await getFieldByClass('cons'),
       advice: await getFieldByClass('adviceMgmt')
     }
-    reviews.push({ review })
+    output.reviews.push(review)
   }
-  console.log(JSON.stringify(reviews, null, 2))
+  console.log(JSON.stringify(output, null, 2))
 })
