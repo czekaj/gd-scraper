@@ -8,15 +8,15 @@ var options = new chrome.Options()
 options.addArguments('headless')
 options.addArguments('disable-gpu')
 
-var driver = new webdriver.Builder()
+var $browser = new webdriver.Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
   .build()
 
 var reviews = []
 
-driver.get(url).then(async () => {
-  var reviewEls = await driver.findElements({
+$browser.get(url).then(async () => {
+  var reviewEls = await $browser.findElements({
     className: 'empReview'
   })
   for (var i = 0; i < reviewEls.length; i++) {
@@ -30,16 +30,23 @@ driver.get(url).then(async () => {
       }
       return field.getText()
     }
+    var url = await reviewEls[i].findElement({
+      className: 'reviewLink'
+    })
+    url = await url.getAttribute('href')
+    var reviewId = url.match(/RVW([0-9])\w+/)[0]
     var date = await reviewEls[i].findElement({
       tagName: 'time'
     })
-    date = await date.getText()
+    date = await date.getAttribute('datetime')
     var stars = await reviewEls[i].findElement({
       className: 'value-title'
     })
     stars = await stars.getAttribute('title')
     stars = '*'.repeat(stars)
     var review = {
+      reviewId,
+      url,
       date,
       summary: await getFieldByClass('summary'),
       stars,
