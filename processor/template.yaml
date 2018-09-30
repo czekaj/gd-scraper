@@ -7,7 +7,7 @@ Resources:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: nodejs8.10
-      Handler: notifier.handler
+      Handler: processor.handler
       Policies: AmazonDynamoDBFullAccess
       Timeout: 40
       Environment:
