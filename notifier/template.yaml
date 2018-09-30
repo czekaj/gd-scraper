@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  ReviewsTable:
+    Type: "AWS::Serverless::SimpleTable"
+  GDNotifier:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: nodejs8.10
+      Handler: notifier.handler
+      Policies: AmazonDynamoDBFullAccess
+      Timeout: 40
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ReviewsTable
+      Events:
+        Vote:
+          Type: Api
+          Properties:
+            Path: /
+            Method: post
