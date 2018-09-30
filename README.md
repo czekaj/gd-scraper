@@ -1,6 +1,6 @@
 # Glassdoor review scraper
 
-### [Docs below are obsolete (rewriting to lambda)
+### DOCS BELOW ARE OBSOLETE (I'm migrating the codebase to AWS Lambda)
 
 Run
 
