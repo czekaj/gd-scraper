@@ -1,5 +1,7 @@
 # Glassdoor review scraper
 
+![](aws-diagram.png)
+
 ### DOCS BELOW ARE OBSOLETE (I'm migrating the codebase to AWS Lambda)
 
 Run
