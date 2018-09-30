@@ -1,5 +1,7 @@
 # Glassdoor review scraper
 
+### [Docs below are obsolete (rewriting to lambda)
+
 Run
 
 ```bash
@@ -18,8 +20,8 @@ Output
       "stars": "****",
       "author": "Current Employee - Anonymous Employee",
       "pros": "Still great benefits.",
-      "cons": "Still too political.",
-      "advice": "We told you to fix the politics."
+      "cons": "None.",
+      "advice": ""
     }
   },
   {
