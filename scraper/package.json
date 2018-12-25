@@ -7,8 +7,9 @@
     "prestart": "concat-cli -f devserver/wrapper.js event.js -o devserver/local-scraper.js;docker run -d --name localgdcontainer --publish 1001:80 localgd",
     "start": "node devserver/local-scraper.js http://localhost:1001/index2.html",
     "poststart": "docker rm -f localgdcontainer",
-    "test": "echo \"Error: pick either test-local or test-sam\" && exit 1",
-    "test-sam": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "docker run -d --name localgdcontainer --network sam-local localgd",
+    "test": "./generate-event.sh && sam local invoke -t ../../Lambdium/template.yaml Lambdium --docker-network sam-local -e event.json",
+    "posttest": "docker rm -f localgdcontainer"
   },
   "author": "",
   "license": "ISC",
