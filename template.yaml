@@ -3,11 +3,11 @@ Transform: AWS::Serverless-2016-10-31
 Resources:
   ReviewsTable:
     Type: "AWS::Serverless::SimpleTable"
-  GDNotifier:
+  GDProcessor:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: nodejs8.10
-      Handler: processor.handler
+      Handler: processor/processor.handler
       Policies: AmazonDynamoDBFullAccess
       Timeout: 40
       Environment:
@@ -19,3 +19,7 @@ Resources:
           Properties:
             Path: /
             Method: post
+  GDScraperStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3-us-west-1.amazonaws.com/lambdium-bucket123/packaged.yaml

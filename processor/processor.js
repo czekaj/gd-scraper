@@ -15,7 +15,7 @@ exports.handler = (event, context, callback) => {
   var cb = (err, data) => {
     console.log('CALLBACK:')
     const dbReviewIds = data.Items.map((item) => item.reviewId)
-    const eventReviewIds = event.reviews.map((item) => item.reviewId)
+    const eventReviewIds = Object.keys(event.reviews)
     var newReviewIds = eventReviewIds.filter(function (item) {
       return dbReviewIds.indexOf(item) === -1
     })

@@ -1,0 +1,27 @@
+{
+  "name": "gd-scraper",
+  "version": "1.0.0",
+  "description": "Scrape company reviews on Glassdoor",
+  "main": "devserver/local-scraper.js",
+  "scripts": {
+    "prestart": "concat-cli -f devserver/wrapper.js event.js -o devserver/local-scraper.js;docker run -d --name localgdcontainer --publish 1001:80 localgd",
+    "start": "node devserver/local-scraper.js http://localhost:1001/index2.html",
+    "poststart": "docker rm -f localgdcontainer",
+    "test": "echo \"Error: pick either test-local or test-sam\" && exit 1",
+    "test-sam": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.325.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "chromedriver": "^2.42.0",
+    "concat-cli": "^4.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "standard": "^12.0.1"
+  }
+}

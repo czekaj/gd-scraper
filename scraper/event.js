@@ -1,23 +1,8 @@
-const url = process.argv[2]
-
-require('chromedriver')
-var webdriver = require('selenium-webdriver')
-var chrome = require('selenium-webdriver/chrome')
-
-var options = new chrome.Options()
-options.addArguments('headless')
-options.addArguments('disable-gpu')
-
-var $browser = new webdriver.Builder()
-  .forBrowser('chrome')
-  .setChromeOptions(options)
-  .build()
-
 var output = {
   reviews: []
 }
 
-$browser.get(url).then(async () => {
+$browser.get($pageUrl).then(async () => {
   var reviewEls = await $browser.findElements({
     className: 'empReview'
   })
@@ -37,10 +22,14 @@ $browser.get(url).then(async () => {
     })
     url = await url.getAttribute('href')
     var reviewId = url.match(/RVW([0-9])\w+/)[0]
-    var date = await reviewEls[i].findElement({
-      tagName: 'time'
-    })
-    date = await date.getAttribute('datetime')
+    try {
+      var date = await reviewEls[i].findElement({
+        tagName: 'time'
+      })
+      date = await date.getAttribute('datetime')
+    } catch (err) {
+      date = null // no date field, probably a Featured Review
+    }
     var stars = await reviewEls[i].findElement({
       className: 'value-title'
     })
@@ -57,7 +46,9 @@ $browser.get(url).then(async () => {
       cons: await getFieldByClass('cons'),
       advice: await getFieldByClass('adviceMgmt')
     }
-    output.reviews.push(review)
+    if (date != null) { // we only care about non-featured/dated reviews
+      output.reviews.push(review)
+    }
   }
   output.reviews = output.reviews.reduce(function (map, obj) {
     map[obj.reviewId] = obj
