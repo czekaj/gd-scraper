@@ -21,10 +21,11 @@ Payload format:
 
 ## GDScraper
   - implements the scraping logic
+  - uses npm scripts for development and testing
+    - run locally with `npm start`
+    - test as a locally deployed Lambda with `npm test`
+    - both above-mentioned `npm` scripts launch a Docker container with Nginx webserver running a saved copy of the page to scrape to save bandwidth and enable offline development
   - generates custom Lambdium payload JSON
-  - can be locally run with `npm start`
-  - can be tested as a locally deployed Lambda with `npm test`
-  - not part of the orchestration workflow (for now)
 
 ## GDProcessor
   - accepts the custom Lambdium payload
