@@ -4,6 +4,8 @@
 
 ## Fully serverless implementation of a resilient web scraper with SNS notifications
 
+# Architecture
+
 ## CloudWatch Event Rule
   - starting point of the workflow
   - new rule launching our State Machine with Lambdium payload on predefined schedule
@@ -40,6 +42,7 @@ Payload format:
 ## GDProcessor (lambda)
   - processes the Lambdium output
   - writes all items to DynamoDB using *batch write* mode (one call to DynamoDB instead of ten)
+  - includes [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)/CloudFormation `template.yaml` to provision GDProcessor and the DynamoDB table as a CloudFormation stack
 
 ## DynamoDB table
   - stores reviews
@@ -56,3 +59,10 @@ Using update events is quite efficient. An event is only generated if there are 
   - listens for new/updated DynamoDB records
   - pushes every message to an email subscriber
   - completes the workflow
+
+# Status
+The architecture has been tested and is currently deployed on AWS. It provides reliable email notifications about new Glassdoor reviews for the chosen reviews page url. The solution is entirely serverless, runs periodically on 1 hour schedule, and incurs $0 cost due to the generous free tier limits.
+
+# Next steps
+
+- Implement comprehensive CloudFormation templates to automate provisioning and deployment of all components
