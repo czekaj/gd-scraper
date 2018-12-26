@@ -4,6 +4,19 @@
 
 ## Fully serverless implementation of a resilient web scraper with SNS notifications
 
+## CloudWatch Event Rule
+  - starting point of the workflow
+  - new rule launching our State Machine with Lambdium payload on predefined schedule
+  - executes the rule every 1 hour
+  
+## GDScraper (script)
+  - implements the scraping logic
+  - uses npm scripts for development and testing
+    - run locally with `npm start`
+    - test as a locally deployed Lambda with `npm test`
+    - both above-mentioned `npm` scripts launch a Docker container with Nginx webserver running a saved copy of the page to scrape to save bandwidth and enable offline development
+  - generates custom Lambdium payload JSON
+
 ## Lambdium (Selenium as lambda)
 It's an [external dependency](https://github.com/czekaj/lambdium) and my custom fork of the original [Lambdium](https://github.com/smithclay/lambdium). I tweaked it to return the stdout (as it was executing the script without returning any value) and always accept `pageUrl` as part of the payload.
 
@@ -19,16 +32,13 @@ Payload format:
 }
 ```
 
-## GDScraper (script)
-  - implements the scraping logic
-  - uses npm scripts for development and testing
-    - run locally with `npm start`
-    - test as a locally deployed Lambda with `npm test`
-    - both above-mentioned `npm` scripts launch a Docker container with Nginx webserver running a saved copy of the page to scrape to save bandwidth and enable offline development
-  - generates custom Lambdium payload JSON
+## AWS Step function / State Machine
+  - orchestrates Lambdium and GDProcessor
+  - takes Lambdium payload as input
+  - Lambdium outputs are passed directly to GDProcessor
 
 ## GDProcessor (lambda)
-  - accepts the custom Lambdium payload
+  - processes the Lambdium output
   - writes all items to DynamoDB using *batch write* mode (one call to DynamoDB instead of ten)
 
 ## DynamoDB table
@@ -46,15 +56,3 @@ Using update events is quite efficient. An event is only generated if there are 
   - listens for new/updated DynamoDB records
   - pushes every message to an email subscriber
   - completes the workflow
-
-## AWS Step function / State Machine
-  - orchestrates Lambdium and GDProcessor
-  - takes Lambdium payload as input
-  - Lambdium outputs are passed directly to GDProcessor
-
-## CloudWatch Event Rule
-  - externally configured (for now)
-  - starting point of the workflow
-  - new rule launching our State Machine with Lambdium payload on predefined schedule
-  - executes the rule every 1 hour
-  
