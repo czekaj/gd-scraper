@@ -4,7 +4,7 @@
 
 ## Fully serverless implementation of a resilient web scraper with SNS notifications
 
-## Lambdium 
+## Lambdium (Selenium as lambda)
 It's an [external dependency](https://github.com/czekaj/lambdium) and my custom fork of the original [Lambdium](https://github.com/smithclay/lambdium). I tweaked it to return the stdout (as it was executing the script without returning any value) and always accept `pageUrl` as part of the payload.
 
 Selenium-based scrapers are much more resilient than scraping libraries, like [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) or [CheerioJS](https://github.com/cheeriojs/cheerio), as they use an actual browser and execute all JavaScript, effectively disarming anti-scraping scripts.
@@ -19,7 +19,7 @@ Payload format:
 }
 ```
 
-## GDScraper
+## GDScraper (script)
   - implements the scraping logic
   - uses npm scripts for development and testing
     - run locally with `npm start`
@@ -27,7 +27,7 @@ Payload format:
     - both above-mentioned `npm` scripts launch a Docker container with Nginx webserver running a saved copy of the page to scrape to save bandwidth and enable offline development
   - generates custom Lambdium payload JSON
 
-## GDProcessor
+## GDProcessor (lambda)
   - accepts the custom Lambdium payload
   - writes all items to DynamoDB using *batch write* mode (one call to DynamoDB instead of ten)
 
@@ -35,7 +35,7 @@ Payload format:
   - stores reviews
   - partition key is set to `reviewId` which is unique and prevents duplicate inserts
 
-## GDNotifier
+## GDNotifier (lambda)
   - listens for DynamoDB update events
   - publishes each new/updated DynamoDB record as a message into the SNS topic
 
