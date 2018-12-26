@@ -3,23 +3,23 @@ Transform: AWS::Serverless-2016-10-31
 Resources:
   ReviewsTable:
     Type: "AWS::Serverless::SimpleTable"
+    Properties:
+      TableName: reviewsTable
+      PrimaryKey:
+        Name: reviewId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
   GDProcessor:
     Type: "AWS::Serverless::Function"
     Properties:
       Runtime: nodejs8.10
-      Handler: processor/processor.handler
+      Handler: processor.handler
       Policies: AmazonDynamoDBFullAccess
       Timeout: 40
       Environment:
         Variables:
           TABLE_NAME: !Ref ReviewsTable
-      Events:
-        Vote:
-          Type: Api
-          Properties:
-            Path: /
-            Method: post
-  GDScraperStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://s3-us-west-1.amazonaws.com/lambdium-bucket123/packaged.yaml
+
+

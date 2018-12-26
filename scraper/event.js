@@ -50,9 +50,9 @@ $browser.get($pageUrl).then(async () => {
       output.reviews.push(review)
     }
   }
-  output.reviews = output.reviews.reduce(function (map, obj) {
-    map[obj.reviewId] = obj
-    return map
-  }, {})
-  console.log(JSON.stringify(output, null, 2))
+  // output.reviews = output.reviews.reduce(function (map, obj) {
+  //   map[obj.reviewId] = obj
+  //   return map
+  // }, {})
+  console.log(JSON.stringify(output.reviews, null, 2))
 })
