@@ -1,4 +1,4 @@
-# Glassdoor review scraper concept built on AWS
+# Glassdoor review scraper concept built on AWS with Node.js
 
 ![](aws-diagram.png)
 
