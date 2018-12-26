@@ -1,4 +1,4 @@
-# Glassdoor review scraper
+# Glassdoor review scraper concept built on AWS
 
 ![](aws-diagram.png)
 
