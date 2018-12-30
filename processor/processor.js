@@ -29,7 +29,11 @@ exports.handler = (event, context, callback) => {
           pros: review.pros || " ",
           cons: review.cons || " ",
           advice: review.advice || " "
-        }
+        },
+        ConditionExpression: "reviewId <> :r",
+        ExpressionAttributeValues: {
+            ":r": {S: review.reviewId},
+        }   
       }
     }
     batchWriteRequest.RequestItems[DYNAMODB_TABLE_NAME].push(putRequest)
