@@ -6,8 +6,12 @@ exports.handler = (event,context) => {
     event.Records.forEach( (record) => {
         if (record.eventName == 'INSERT') {
             var newReview = parse(record.dynamodb.NewImage)
+            let message = ''
+            for (let key of Object.keys(newReview)) {
+              message += `${key.toUpperCase()}\t\t${newReview[key]}\n`
+            }
             var params = {
-              Message: JSON.stringify(newReview, null, 2),
+              Message: message,
               TopicArn: process.env.TOPIC_ARN
             };
             var sns = new AWS.SNS({apiVersion: '2010-03-31'})
